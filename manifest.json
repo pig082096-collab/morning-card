@@ -1,0 +1,18 @@
+{
+  "name": "こんねね～！ねっ子早安集點卡",
+  "short_name": "早安集點",
+  "description": "ねっ子早起簽到集點卡",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFE5EC",
+  "theme_color": "#FFE5EC",
+  "icons": [
+    {
+      "src": "./IMG_20261118_144705.png",
+      "sizes": "900x900",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
