@@ -35,23 +35,29 @@
             position: relative;
             overflow: hidden;
         }
-        .late-banner {
+        .notice-banner {
             width: 100%;
             margin-bottom: 16px;
             padding: 16px 10px;
             border-radius: 18px;
-            background: linear-gradient(90deg, #D90429, #FF4D6D);
             color: #fff;
             font-size: clamp(22px, 7vw, 30px);
             font-weight: 900;
             line-height: 1.25;
             box-shadow: 0 6px 16px rgba(217, 4, 41, 0.3);
-            animation: late-pulse 1.4s ease-in-out infinite alternate;
+            animation: banner-pulse 1.4s ease-in-out infinite alternate;
         }
-        .late-banner[hidden] {
+        .notice-banner.late {
+            background: linear-gradient(90deg, #D90429, #FF4D6D);
+        }
+        .notice-banner.success {
+            background: linear-gradient(90deg, #2A9D5B, #68C587);
+            box-shadow: 0 6px 16px rgba(42, 157, 91, 0.3);
+        }
+        .notice-banner[hidden] {
             display: none;
         }
-        @keyframes late-pulse {
+        @keyframes banner-pulse {
             from { transform: scale(1); }
             to { transform: scale(1.025); }
         }
@@ -172,7 +178,7 @@
 <body>
 
     <div class="card-container">
-        <div class="late-banner" id="lateBanner" role="alert" hidden>太晚起床了吧！！</div>
+        <div class="notice-banner" id="noticeBanner" role="status" aria-live="polite" hidden></div>
         <div class="top-ribbon">🍑 NEKKO MORNING CLUB 🥟</div>
         <h1>こんねね～！早安集點</h1>
         <p class="subtitle">優秀的ねっ子每天準時起床，集滿 5 點換獎勵！</p>
@@ -193,6 +199,7 @@
     <script>
         const TOTAL_POINTS = 5;
         const STORAGE_KEY = 'neneWakeUpData';
+        const CHECK_IN_START_HOUR = 4;
         const CHECK_IN_DEADLINE_HOUR = 9;
 
         // 蓋章圖案：水蜜桃與餃子輪流，第5格是皇冠
@@ -284,39 +291,63 @@
             return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
         }
 
-        function isPastCheckInDeadline() {
-            return new Date().getHours() >= CHECK_IN_DEADLINE_HOUR;
+        function isWithinCheckInHours() {
+            const hour = new Date().getHours();
+            return hour >= CHECK_IN_START_HOUR && hour < CHECK_IN_DEADLINE_HOUR;
         }
 
         function checkTodayStatus() {
             const today = getTodayStr();
             const msg = document.getElementById('statusMsg');
             const btn = document.getElementById('checkInBtn');
-            const lateBanner = document.getElementById('lateBanner');
-            const isLate = isPastCheckInDeadline();
+            const banner = document.getElementById('noticeBanner');
+            const hasCheckedInToday = userData.lastCheckInDate === today;
+            const now = new Date();
+            const hour = now.getHours();
 
-            lateBanner.hidden = !isLate;
+            banner.hidden = true;
+            banner.classList.remove('late', 'success');
 
-            if (isLate) {
+            if (hour >= CHECK_IN_DEADLINE_HOUR) {
+                banner.hidden = false;
+                if (hasCheckedInToday) {
+                    banner.textContent = '真棒！有好好起床';
+                    banner.classList.add('success');
+                } else {
+                    banner.textContent = '也太晚起床了吧！！！';
+                    banner.classList.add('late');
+                }
                 btn.disabled = true;
-                btn.innerText = '今天簽到時間已過';
+                btn.innerText = hasCheckedInToday ? '今天已簽到完成囉 ✓' : '今天簽到時間已過';
                 return;
             }
 
-            if (userData.lastCheckInDate === today && userData.points < TOTAL_POINTS) {
+            if (hour < CHECK_IN_START_HOUR) {
+                btn.disabled = true;
+                btn.innerText = '早上 4 點開放簽到';
+                msg.innerText = '簽到時間是早上 4 點到 9 點喔！🍑';
+                return;
+            }
+
+            if (hasCheckedInToday && userData.points < TOTAL_POINTS) {
                 btn.disabled = true;
                 btn.innerText = '今天已簽到完成囉 ✓';
-                if (!msg.innerText) {
-                    msg.innerText = '明天也要記得來找ねね簽到喔！🍑';
-                }
+                msg.innerText = '真棒！有好好起床';
+            } else if (hasCheckedInToday) {
+                btn.disabled = true;
+                btn.innerText = '今天已簽到完成囉 ✓';
+                msg.innerText = '真棒！有好好起床';
             } else {
                 btn.disabled = false;
                 btn.innerText = '🍑 こんねね！起床簽到 (+1)';
+                if (msg.innerText === '簽到時間是早上 4 點到 9 點喔！🍑') {
+                    msg.innerText = '';
+                }
             }
         }
 
         function checkIn() {
-            if (isPastCheckInDeadline()) {
+            if (!isWithinCheckInHours()) {
                 checkTodayStatus();
                 return;
             }
@@ -332,13 +363,7 @@
                 renderGrid();
                 updateUI();
 
-                const msg = document.getElementById('statusMsg');
-                if (userData.points === TOTAL_POINTS) {
-                    msg.innerText = '🎉 恭喜集滿 5 點！快點擊下方兌換禮品卡吧！';
-                } else {
-                    const randomMsg = CHEER_MESSAGES[Math.floor(Math.random() * CHEER_MESSAGES.length)];
-                    msg.innerText = randomMsg;
-                }
+                document.getElementById('statusMsg').innerText = '真棒！有好好起床';
                 checkTodayStatus();
             }
         }
@@ -356,7 +381,7 @@
         }
 
         initApp();
-        // 若頁面持續開啟，定期檢查時間，讓 9:00 後立即顯示逾時橫幅並停用簽到。
+        // 頁面持續開啟時定期檢查時段，到 9:00 顯示簽到結果並關閉簽到。
         window.setInterval(checkTodayStatus, 30 * 1000);
     </script>
 </body>
