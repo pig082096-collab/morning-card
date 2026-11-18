@@ -35,6 +35,26 @@
             position: relative;
             overflow: hidden;
         }
+        .late-banner {
+            width: 100%;
+            margin-bottom: 16px;
+            padding: 16px 10px;
+            border-radius: 18px;
+            background: linear-gradient(90deg, #D90429, #FF4D6D);
+            color: #fff;
+            font-size: clamp(22px, 7vw, 30px);
+            font-weight: 900;
+            line-height: 1.25;
+            box-shadow: 0 6px 16px rgba(217, 4, 41, 0.3);
+            animation: late-pulse 1.4s ease-in-out infinite alternate;
+        }
+        .late-banner[hidden] {
+            display: none;
+        }
+        @keyframes late-pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.025); }
+        }
         /* 頂部裝飾條 */
         .top-ribbon {
             background: linear-gradient(90deg, #FF758F, #FFB703);
@@ -152,6 +172,7 @@
 <body>
 
     <div class="card-container">
+        <div class="late-banner" id="lateBanner" role="alert" hidden>太晚起床了吧！！</div>
         <div class="top-ribbon">🍑 NEKKO MORNING CLUB 🥟</div>
         <h1>こんねね～！早安集點</h1>
         <p class="subtitle">優秀的ねっ子每天準時起床，集滿 5 點換獎勵！</p>
@@ -172,6 +193,7 @@
     <script>
         const TOTAL_POINTS = 5;
         const STORAGE_KEY = 'neneWakeUpData';
+        const CHECK_IN_DEADLINE_HOUR = 9;
 
         // 蓋章圖案：水蜜桃與餃子輪流，第5格是皇冠
         const STAMP_ICONS = ['🍑', '🥟', '🍑', '🥟', '👑'];
@@ -262,10 +284,24 @@
             return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
         }
 
+        function isPastCheckInDeadline() {
+            return new Date().getHours() >= CHECK_IN_DEADLINE_HOUR;
+        }
+
         function checkTodayStatus() {
             const today = getTodayStr();
             const msg = document.getElementById('statusMsg');
             const btn = document.getElementById('checkInBtn');
+            const lateBanner = document.getElementById('lateBanner');
+            const isLate = isPastCheckInDeadline();
+
+            lateBanner.hidden = !isLate;
+
+            if (isLate) {
+                btn.disabled = true;
+                btn.innerText = '今天簽到時間已過';
+                return;
+            }
 
             if (userData.lastCheckInDate === today && userData.points < TOTAL_POINTS) {
                 btn.disabled = true;
@@ -280,6 +316,11 @@
         }
 
         function checkIn() {
+            if (isPastCheckInDeadline()) {
+                checkTodayStatus();
+                return;
+            }
+
             const today = getTodayStr();
             if (userData.lastCheckInDate === today) return;
 
@@ -315,6 +356,8 @@
         }
 
         initApp();
+        // 若頁面持續開啟，定期檢查時間，讓 9:00 後立即顯示逾時橫幅並停用簽到。
+        window.setInterval(checkTodayStatus, 30 * 1000);
     </script>
 </body>
 </html>
