@@ -15,53 +15,24 @@
             font-family: "Hiragino Maru Gothic ProN", "Rounded Mplus 1c", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
         body {
-            /* 桃鈴ねね代表色：蜜桃粉橘漸層 */
             background: linear-gradient(135deg, #FFE5EC 0%, #FFC2D1 50%, #FFE8A3 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             padding: 16px;
         }
         .card-container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             width: 100%;
-            max-width: 380px;
+            max-width: 430px;
+            margin: 12px auto;
             border-radius: 28px;
             padding: 24px 20px;
             box-shadow: 0 12px 30px rgba(255, 117, 143, 0.25);
             border: 3px solid #FF8FA3;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-        .notice-banner {
-            width: 100%;
-            margin-bottom: 16px;
-            padding: 16px 10px;
-            border-radius: 18px;
-            color: #fff;
-            font-size: clamp(22px, 7vw, 30px);
-            font-weight: 900;
-            line-height: 1.25;
-            box-shadow: 0 6px 16px rgba(217, 4, 41, 0.3);
-            animation: banner-pulse 1.4s ease-in-out infinite alternate;
-        }
-        .notice-banner.late {
-            background: linear-gradient(90deg, #D90429, #FF4D6D);
-        }
-        .notice-banner.success {
-            background: linear-gradient(90deg, #2A9D5B, #68C587);
-            box-shadow: 0 6px 16px rgba(42, 157, 91, 0.3);
-        }
-        .notice-banner[hidden] {
-            display: none;
-        }
-        @keyframes banner-pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.025); }
-        }
-        /* 頂部裝飾條 */
         .top-ribbon {
             background: linear-gradient(90deg, #FF758F, #FFB703);
             color: white;
@@ -73,218 +44,119 @@
             margin-bottom: 10px;
             letter-spacing: 1px;
         }
-        h1 {
-            font-size: 22px;
-            color: #D90429;
-            margin-bottom: 6px;
-            text-shadow: 1px 1px 0px #FFE5EC;
-        }
-        .subtitle {
-            font-size: 13px;
-            color: #7F5539;
-            margin-bottom: 18px;
-        }
-        .points-badge {
-            background: #FFF8E7;
-            border: 2px dashed #FFB703;
-            border-radius: 18px;
-            padding: 12px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .points-number {
-            font-size: 32px;
-            font-weight: 900;
-            color: #FF758F;
-        }
-        .points-label {
-            font-size: 12px;
-            color: #B08968;
-            font-weight: bold;
-        }
-        /* 1x5 集點卡網格 */
-        .stamp-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            margin-bottom: 22px;
-        }
-        .stamp-slot {
-            aspect-ratio: 1;
-            background: #FFF0F3;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 14px;
-            color: #FFB3C1;
-            font-weight: bold;
-            border: 2px dashed #FFB3C1;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .stamp-slot.checked {
-            background: linear-gradient(135deg, #FFCCD5 0%, #FFF3B0 100%);
-            border: 2px solid #FF758F;
-            color: #D90429;
-            font-size: 22px;
-            transform: scale(1.06) rotate(-3deg);
-            box-shadow: 0 4px 10px rgba(255, 117, 143, 0.2);
-        }
+        h1 { font-size: 22px; color: #D90429; margin-bottom: 6px; text-shadow: 1px 1px 0 #FFE5EC; }
+        .subtitle { font-size: 13px; color: #7F5539; margin-bottom: 18px; }
+        .auth-box { background: #FFF8E7; border-radius: 16px; padding: 12px; margin-bottom: 16px; }
+        .auth-status { color: #7F5539; font-size: 13px; overflow-wrap: anywhere; margin-bottom: 8px; }
         .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 16px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(255, 117, 143, 0.3);
+            width: 100%; padding: 13px; border: 0; border-radius: 16px; font-size: 15px;
+            font-weight: bold; cursor: pointer; transition: transform 0.2s, opacity 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 117, 143, 0.25);
         }
-        .btn-primary {
-            background: linear-gradient(90deg, #FF758F 0%, #FF8FA3 100%);
-            color: white;
-            margin-bottom: 10px;
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { background: #E5E5E5 !important; color: #999 !important; box-shadow: none; cursor: not-allowed; }
+        .btn-primary { background: linear-gradient(90deg, #FF758F, #FF8FA3); color: white; margin-bottom: 9px; }
+        .btn-neutral { background: #fff; color: #7F5539; border: 1px solid #FFD0D8; box-shadow: none; }
+        .btn-success { background: linear-gradient(90deg, #FFB703, #FB8500); color: white; display: none; animation: bounce 1.2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .notice-banner {
+            width: 100%; margin-bottom: 16px; padding: 15px 10px; border-radius: 18px; color: white;
+            font-size: clamp(21px, 6vw, 28px); font-weight: 900; line-height: 1.25;
+            animation: banner-pulse 1.4s ease-in-out infinite alternate;
         }
-        .btn-primary:active {
-            transform: scale(0.97);
+        .notice-banner.late { background: linear-gradient(90deg, #D90429, #FF4D6D); }
+        .notice-banner.success { background: linear-gradient(90deg, #2A9D5B, #68C587); }
+        .notice-banner[hidden] { display: none; }
+        @keyframes banner-pulse { to { transform: scale(1.02); } }
+        .points-badge { background: #FFF8E7; border: 2px dashed #FFB703; border-radius: 18px; padding: 12px; margin-bottom: 18px; }
+        .points-number { font-size: 32px; font-weight: 900; color: #FF758F; }
+        .points-label { font-size: 12px; color: #B08968; font-weight: bold; }
+        .stamp-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 18px; }
+        .stamp-slot {
+            aspect-ratio: 1; background: #FFF0F3; border-radius: 16px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; font-size: 14px; color: #FFB3C1; font-weight: bold;
+            border: 2px dashed #FFB3C1; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .btn-primary:disabled {
-            background: #E5E5E5;
-            color: #999;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-        .btn-success {
-            background: linear-gradient(90deg, #FFB703 0%, #FB8500 100%);
-            color: white;
-            display: none;
-            animation: bounce 1.2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
-        .status-msg {
-            margin-top: 10px;
-            font-size: 13px;
-            font-weight: bold;
-            color: #FF4D6D;
-            min-height: 20px;
-        }
+        .stamp-slot.checked { background: linear-gradient(135deg, #FFCCD5, #FFF3B0); border: 2px solid #FF758F; color: #D90429; font-size: 22px; transform: scale(1.04) rotate(-3deg); }
+        .status-msg { margin-top: 10px; font-size: 13px; font-weight: bold; color: #FF4D6D; min-height: 20px; }
+        .community { border-top: 1px solid #FFE0E6; margin-top: 22px; padding-top: 18px; text-align: left; }
+        .community h2 { color: #D90429; font-size: 17px; margin-bottom: 5px; }
+        .community-intro { color: #7F5539; font-size: 12px; margin-bottom: 10px; }
+        .member-list { list-style: none; display: grid; gap: 8px; }
+        .member-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #FFF5F6; border-radius: 12px; padding: 10px; font-size: 13px; }
+        .member-name { color: #7F5539; font-weight: bold; overflow-wrap: anywhere; }
+        .member-progress { color: #D90429; white-space: nowrap; font-weight: bold; }
+        .privacy-note { font-size: 11px; color: #9B806E; margin-top: 10px; line-height: 1.5; }
     </style>
 </head>
 <body>
-
-    <div class="card-container">
-        <div class="notice-banner" id="noticeBanner" role="status" aria-live="polite" hidden></div>
+    <main class="card-container">
         <div class="top-ribbon">🍑 NEKKO MORNING CLUB 🥟</div>
         <h1>こんねね～！早安集點</h1>
-        <p class="subtitle">優秀的ねっ子每天準時起床，集滿 5 點換獎勵！</p>
+        <p class="subtitle">每天 4:00–9:00 簽到，大家的進度會即時同步！</p>
 
-        <div class="points-badge">
+        <section class="auth-box" aria-label="登入狀態">
+            <div class="auth-status" id="authStatus">請使用 Google 登入，同步並查看大家的進度。</div>
+            <button class="btn btn-primary" id="signInBtn" type="button">使用 Google 登入</button>
+            <button class="btn btn-neutral" id="signOutBtn" type="button" hidden>登出</button>
+        </section>
+
+        <div class="notice-banner" id="noticeBanner" role="status" aria-live="polite" hidden></div>
+        <section class="points-badge" aria-label="我的集點進度">
             <div class="points-number" id="pointsDisplay">0 / 5</div>
-            <div class="points-label">🐾 目前收集的ねね印章 🐾</div>
-        </div>
+            <div class="points-label">🐾 我的ねね印章 🐾</div>
+        </section>
+        <div class="stamp-grid" id="stampGrid" aria-label="我的五格集點卡"></div>
+        <button class="btn btn-primary" id="checkInBtn" type="button" disabled>登入後即可簽到</button>
+        <button class="btn btn-success" id="redeemBtn" type="button">🎁 集滿 5 點！兌換禮品卡</button>
+        <div class="status-msg" id="statusMsg" aria-live="polite"></div>
 
-        <!-- 5格集點卡視覺化 -->
-        <div class="stamp-grid" id="stampGrid"></div>
+        <section class="community" aria-labelledby="communityTitle">
+            <h2 id="communityTitle">ねっ子大家的進度</h2>
+            <p class="community-intro">登入後可查看所有參與者的集點狀態。</p>
+            <ul class="member-list" id="memberList"><li class="member-item">登入後載入共用進度…</li></ul>
+            <p class="privacy-note">你的 Google 顯示名稱和集點進度會讓已登入的參與者看見；不會顯示電子郵件。</p>
+        </section>
+    </main>
 
-        <button class="btn btn-primary" id="checkInBtn" onclick="checkIn()">🍑 こんねね！起床簽到 (+1)</button>
-        <button class="btn btn-success" id="redeemBtn" onclick="redeemPrize()">🎁 集滿 5 點！兌換禮品卡</button>
-        <div class="status-msg" id="statusMsg"></div>
-    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect, getRedirectResult, signOut } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-database.js";
 
-    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCctQGyKpk3AtM75DZtrKO7pvekDUTqRvI",
+            authDomain: "good-morning-f4edd.firebaseapp.com",
+            databaseURL: "https://good-morning-f4edd-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "good-morning-f4edd",
+            storageBucket: "good-morning-f4edd.firebasestorage.app",
+            messagingSenderId: "382853682106",
+            appId: "1:382853682106:web:98be66bc263d09ba824383",
+            measurementId: "G-HSE0NC2H4C"
+        };
+
         const TOTAL_POINTS = 5;
         const STORAGE_KEY = 'neneWakeUpData';
         const CHECK_IN_START_HOUR = 4;
         const CHECK_IN_DEADLINE_HOUR = 9;
-
-        // 蓋章圖案：水蜜桃與餃子輪流，第5格是皇冠
         const STAMP_ICONS = ['🍑', '🥟', '🍑', '🥟', '👑'];
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+        const provider = new GoogleAuthProvider();
 
-        // ねね風格早安應援語錄
-        const CHEER_MESSAGES = [
-            'こんねね～！今天也準時起床太棒了！🍑',
-            '不愧是優秀的ねっ子！獎勵你一個大大的印章 🥟',
-            'またねね～！今天也要元氣滿滿地加油喔！✨',
-            '早起的ねっ子有餃子吃！繼續保持吧～🧡'
-        ];
+        let currentUser = null;
+        let userData = { points: 0, lastCheckInDate: '' };
+        let unsubscribeUsers = null;
+        let usersData = {};
+        let requestInProgress = false;
 
-        function getDefaultUserData() {
-            return {
-                points: 0,
-                lastCheckInDate: ''
-            };
-        }
-
-        function loadUserData() {
-            try {
-                const storedData = localStorage.getItem(STORAGE_KEY);
-                if (!storedData) return getDefaultUserData();
-
-                const parsedData = JSON.parse(storedData);
-                const validPoints = Number.isInteger(parsedData.points)
-                    ? Math.min(Math.max(parsedData.points, 0), TOTAL_POINTS)
-                    : 0;
-
-                return {
-                    points: validPoints,
-                    lastCheckInDate: typeof parsedData.lastCheckInDate === 'string'
-                        ? parsedData.lastCheckInDate
-                        : ''
-                };
-            } catch (error) {
-                // 若資料損毀或瀏覽器禁止存取 localStorage，使用安全的預設值。
-                console.warn('無法讀取集點資料，已重設為初始狀態：', error);
-                return getDefaultUserData();
-            }
-        }
-
-        let userData = loadUserData();
-
-        function saveUserData() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-            } catch (error) {
-                console.warn('無法儲存集點資料：', error);
-            }
-        }
-
-        function initApp() {
-            renderGrid();
-            updateUI();
-            checkTodayStatus();
-        }
-
-        function renderGrid() {
-            const grid = document.getElementById('stampGrid');
-            grid.innerHTML = '';
-            for (let i = 1; i <= TOTAL_POINTS; i++) {
-                const slot = document.createElement('div');
-                const isChecked = i <= userData.points;
-                slot.className = `stamp-slot ${isChecked ? 'checked' : ''}`;
-                slot.innerHTML = isChecked ? STAMP_ICONS[i - 1] : `🐾<span style="font-size:10px;">${i}</span>`;
-                grid.appendChild(slot);
-            }
-        }
-
-        function updateUI() {
-            document.getElementById('pointsDisplay').innerText = `${userData.points} / ${TOTAL_POINTS}`;
-
-            const checkInBtn = document.getElementById('checkInBtn');
-            const redeemBtn = document.getElementById('redeemBtn');
-
-            if (userData.points >= TOTAL_POINTS) {
-                checkInBtn.style.display = 'none';
-                redeemBtn.style.display = 'block';
-            } else {
-                checkInBtn.style.display = 'block';
-                redeemBtn.style.display = 'none';
-            }
-        }
+        const signInBtn = document.getElementById('signInBtn');
+        const signOutBtn = document.getElementById('signOutBtn');
+        const checkInBtn = document.getElementById('checkInBtn');
+        const redeemBtn = document.getElementById('redeemBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const banner = document.getElementById('noticeBanner');
 
         function getTodayStr() {
             const now = new Date();
@@ -296,93 +168,250 @@
             return hour >= CHECK_IN_START_HOUR && hour < CHECK_IN_DEADLINE_HOUR;
         }
 
-        function checkTodayStatus() {
-            const today = getTodayStr();
-            const msg = document.getElementById('statusMsg');
-            const btn = document.getElementById('checkInBtn');
-            const banner = document.getElementById('noticeBanner');
-            const hasCheckedInToday = userData.lastCheckInDate === today;
-            const now = new Date();
-            const hour = now.getHours();
+        function renderGrid() {
+            const grid = document.getElementById('stampGrid');
+            grid.replaceChildren();
+            for (let i = 0; i < TOTAL_POINTS; i++) {
+                const slot = document.createElement('div');
+                slot.className = `stamp-slot ${i < userData.points ? 'checked' : ''}`;
+                if (i < userData.points) {
+                    slot.textContent = STAMP_ICONS[i];
+                } else {
+                    slot.append('🐾');
+                    const number = document.createElement('span');
+                    number.style.fontSize = '10px';
+                    number.textContent = String(i + 1);
+                    slot.append(number);
+                }
+                grid.append(slot);
+            }
+            document.getElementById('pointsDisplay').textContent = `${userData.points} / ${TOTAL_POINTS}`;
+            redeemBtn.style.display = userData.points >= TOTAL_POINTS ? 'block' : 'none';
+        }
 
+        function renderMemberList() {
+            const list = document.getElementById('memberList');
+            list.replaceChildren();
+            const entries = Object.entries(usersData).sort((a, b) => {
+                const nameA = (a[1]?.displayName || 'ねっ子').toLocaleLowerCase();
+                const nameB = (b[1]?.displayName || 'ねっ子').toLocaleLowerCase();
+                return nameA.localeCompare(nameB);
+            });
+
+            if (!entries.length) {
+                const empty = document.createElement('li');
+                empty.className = 'member-item';
+                empty.textContent = '還沒有參與者，來簽下第一個到吧！';
+                list.append(empty);
+                return;
+            }
+
+            for (const [uid, member] of entries) {
+                const item = document.createElement('li');
+                item.className = 'member-item';
+                const name = document.createElement('span');
+                name.className = 'member-name';
+                name.textContent = `${member?.displayName || 'ねっ子'}${uid === currentUser?.uid ? '（我）' : ''}`;
+                const progress = document.createElement('span');
+                progress.className = 'member-progress';
+                const points = Number.isInteger(member?.points) ? Math.min(Math.max(member.points, 0), TOTAL_POINTS) : 0;
+                const checkedToday = member?.lastCheckInDate === getTodayStr();
+                const hour = new Date().getHours();
+                let state = checkedToday ? '已簽到 ✓' : (hour >= CHECK_IN_DEADLINE_HOUR ? '未簽到' : '尚未簽到');
+                if (hour < CHECK_IN_START_HOUR && !checkedToday) state = '尚未開放';
+                progress.textContent = `${points}/${TOTAL_POINTS} · ${state}`;
+                item.append(name, progress);
+                list.append(item);
+            }
+        }
+
+        function updateStatus() {
+            renderGrid();
             banner.hidden = true;
             banner.classList.remove('late', 'success');
 
+            if (!currentUser) {
+                checkInBtn.disabled = true;
+                checkInBtn.textContent = '登入後即可簽到';
+                return;
+            }
+
+            const hour = new Date().getHours();
+            const checkedToday = userData.lastCheckInDate === getTodayStr();
             if (hour >= CHECK_IN_DEADLINE_HOUR) {
                 banner.hidden = false;
-                if (hasCheckedInToday) {
-                    banner.textContent = '真棒！有好好起床';
-                    banner.classList.add('success');
-                } else {
-                    banner.textContent = '也太晚起床了吧！！！';
-                    banner.classList.add('late');
-                }
-                btn.disabled = true;
-                btn.innerText = hasCheckedInToday ? '今天已簽到完成囉 ✓' : '今天簽到時間已過';
-                return;
-            }
-
-            if (hour < CHECK_IN_START_HOUR) {
-                btn.disabled = true;
-                btn.innerText = '早上 4 點開放簽到';
-                msg.innerText = '簽到時間是早上 4 點到 9 點喔！🍑';
-                return;
-            }
-
-            if (hasCheckedInToday && userData.points < TOTAL_POINTS) {
-                btn.disabled = true;
-                btn.innerText = '今天已簽到完成囉 ✓';
-                msg.innerText = '真棒！有好好起床';
-            } else if (hasCheckedInToday) {
-                btn.disabled = true;
-                btn.innerText = '今天已簽到完成囉 ✓';
-                msg.innerText = '真棒！有好好起床';
+                banner.textContent = checkedToday ? '真棒！有好好起床' : '也太晚起床了吧！！！';
+                banner.classList.add(checkedToday ? 'success' : 'late');
+                checkInBtn.disabled = true;
+                checkInBtn.textContent = checkedToday ? '今天已簽到完成囉 ✓' : '今天簽到時間已過';
+            } else if (hour < CHECK_IN_START_HOUR) {
+                checkInBtn.disabled = true;
+                checkInBtn.textContent = '早上 4 點開放簽到';
+                statusMsg.textContent = '簽到時間是早上 4 點到 9 點喔！🍑';
+            } else if (checkedToday) {
+                checkInBtn.disabled = true;
+                checkInBtn.textContent = '今天已簽到完成囉 ✓';
+                banner.hidden = false;
+                banner.textContent = '真棒！有好好起床';
+                banner.classList.add('success');
+                statusMsg.textContent = '';
             } else {
-                btn.disabled = false;
-                btn.innerText = '🍑 こんねね！起床簽到 (+1)';
-                if (msg.innerText === '簽到時間是早上 4 點到 9 點喔！🍑') {
-                    msg.innerText = '';
-                }
+                checkInBtn.disabled = requestInProgress;
+                checkInBtn.textContent = '🍑 こんねね！起床簽到 (+1)';
+                if (statusMsg.textContent === '簽到時間是早上 4 點到 9 點喔！🍑') statusMsg.textContent = '';
+            }
+            renderMemberList();
+        }
+
+        function showError(error) {
+            console.error(error);
+            const code = error?.code || '';
+            if (code.includes('permission-denied')) {
+                statusMsg.textContent = '資料庫權限不足，請檢查 Realtime Database 規則。';
+            } else if (code.includes('auth/unauthorized-domain')) {
+                statusMsg.textContent = '登入網域尚未加入 Firebase 授權網域。';
+            } else {
+                statusMsg.textContent = '連線發生問題，請稍後重試或檢查 Firebase 設定。';
             }
         }
 
-        function checkIn() {
-            if (!isWithinCheckInHours()) {
-                checkTodayStatus();
+        function loadLegacyData() {
+            try {
+                const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+                return {
+                    points: Number.isInteger(parsed?.points) ? Math.min(Math.max(parsed.points, 0), TOTAL_POINTS) : 0,
+                    lastCheckInDate: typeof parsed?.lastCheckInDate === 'string' ? parsed.lastCheckInDate : ''
+                };
+            } catch {
+                return { points: 0, lastCheckInDate: '' };
+            }
+        }
+
+        async function ensureUserRecord(user) {
+            const userRef = ref(database, `morningCard/users/${user.uid}`);
+            const legacy = loadLegacyData();
+            await runTransaction(userRef, (current) => {
+                if (current) return current;
+                return {
+                    points: legacy.points,
+                    lastCheckInDate: legacy.lastCheckInDate,
+                    displayName: user.displayName || 'ねっ子'
+                };
+            });
+        }
+
+        signInBtn.addEventListener('click', async () => {
+            signInBtn.disabled = true;
+            statusMsg.textContent = '正在前往 Google 登入…';
+            try {
+                await signInWithRedirect(auth, provider);
+            } catch (error) {
+                showError(error);
+                signInBtn.disabled = false;
+            }
+        });
+
+        signOutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                showError(error);
+            }
+        });
+
+        checkInBtn.addEventListener('click', async () => {
+            if (!currentUser || !isWithinCheckInHours() || userData.lastCheckInDate === getTodayStr() || requestInProgress) {
+                updateStatus();
+                return;
+            }
+            requestInProgress = true;
+            updateStatus();
+            statusMsg.textContent = '簽到同步中…';
+            const userRef = ref(database, `morningCard/users/${currentUser.uid}`);
+            try {
+                const result = await runTransaction(userRef, (current) => {
+                    if (!current || current.lastCheckInDate === getTodayStr() || !isWithinCheckInHours()) return;
+                    const points = Number.isInteger(current.points) ? Math.min(Math.max(current.points, 0), TOTAL_POINTS) : 0;
+                    if (points >= TOTAL_POINTS) return;
+                    return { ...current, points: points + 1, lastCheckInDate: getTodayStr() };
+                });
+                if (result.committed) {
+                    statusMsg.textContent = '真棒！有好好起床';
+                } else {
+                    statusMsg.textContent = '今天已簽到，或目前不在簽到時段內。';
+                }
+            } catch (error) {
+                showError(error);
+            } finally {
+                requestInProgress = false;
+                updateStatus();
+            }
+        });
+
+        redeemBtn.addEventListener('click', async () => {
+            if (!currentUser || userData.points < TOTAL_POINTS || requestInProgress) return;
+            if (!window.confirm('確定兌換並開始新一輪集點嗎？')) return;
+            requestInProgress = true;
+            redeemBtn.disabled = true;
+            try {
+                const userRef = ref(database, `morningCard/users/${currentUser.uid}`);
+                await runTransaction(userRef, (current) => current && current.points >= TOTAL_POINTS
+                    ? { ...current, points: 0 }
+                    : current);
+                statusMsg.textContent = '新一輪集點卡開始囉！繼續加油 🥟';
+            } catch (error) {
+                showError(error);
+            } finally {
+                requestInProgress = false;
+                redeemBtn.disabled = false;
+                updateStatus();
+            }
+        });
+
+        getRedirectResult(auth).catch(showError);
+        onAuthStateChanged(auth, async (user) => {
+            if (unsubscribeUsers) {
+                unsubscribeUsers();
+                unsubscribeUsers = null;
+            }
+            currentUser = user;
+            usersData = {};
+            const authStatus = document.getElementById('authStatus');
+            signInBtn.hidden = Boolean(user);
+            signInBtn.disabled = false;
+            signOutBtn.hidden = !user;
+
+            if (!user) {
+                userData = { points: 0, lastCheckInDate: '' };
+                authStatus.textContent = '請使用 Google 登入，同步並查看大家的進度。';
+                document.getElementById('memberList').replaceChildren();
+                const item = document.createElement('li');
+                item.className = 'member-item';
+                item.textContent = '登入後載入共用進度…';
+                document.getElementById('memberList').append(item);
+                statusMsg.textContent = '';
+                updateStatus();
                 return;
             }
 
-            const today = getTodayStr();
-            if (userData.lastCheckInDate === today) return;
-
-            if (userData.points < TOTAL_POINTS) {
-                userData.points += 1;
-                userData.lastCheckInDate = today;
-                saveUserData();
-
-                renderGrid();
-                updateUI();
-
-                document.getElementById('statusMsg').innerText = '真棒！有好好起床';
-                checkTodayStatus();
+            authStatus.textContent = `已登入：${user.displayName || 'ねっ子'}`;
+            statusMsg.textContent = '正在載入共用進度…';
+            try {
+                await ensureUserRecord(user);
+                if (currentUser?.uid !== user.uid) return;
+                unsubscribeUsers = onValue(ref(database, 'morningCard/users'), (snapshot) => {
+                    usersData = snapshot.val() || {};
+                    userData = usersData[user.uid] || { points: 0, lastCheckInDate: '' };
+                    statusMsg.textContent = '';
+                    updateStatus();
+                }, showError);
+            } catch (error) {
+                showError(error);
             }
-        }
+        });
 
-        function redeemPrize() {
-            if (userData.points < TOTAL_POINTS) return;
-
-            alert('🍑 こんねね～！恭喜ねっ子集滿 5 點！\n請截圖此畫面兌換你的專屬禮品卡 🎁');
-            userData.points = 0;
-            saveUserData();
-            initApp();
-
-            const msg = document.getElementById('statusMsg');
-            msg.innerText = '新一輪集點卡開始囉！繼續加油 🥟';
-        }
-
-        initApp();
-        // 頁面持續開啟時定期檢查時段，到 9:00 顯示簽到結果並關閉簽到。
-        window.setInterval(checkTodayStatus, 30 * 1000);
+        // 頁面持續開啟時檢查時間，更新簽到開放狀態與大家的簽到結果。
+        window.setInterval(updateStatus, 30 * 1000);
     </script>
 </body>
 </html>
